@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure('2') do |config|
+  config.vm.define :ubuntu do |ubuntu_config|
+    ubuntu_config.box = 'lucid64'
+
+    # TODO: Use drop box or S3 for Rapid7 boxes.
+    ubuntu_config.box_url = 'http://opscode-vagrant-boxes.s3.amazonaws.com/ubuntu10.04-gems.box'
+    ubuntu_config.hostname = 'spip-ubuntu'
+
+    ubuntu_config.provision :chef_solo do |chef|
+      chef.json = {
+        spip: {
+        }
+      }
+
+      chef.run_list = %w[recipe[spip]]
+    end
+  end
+end

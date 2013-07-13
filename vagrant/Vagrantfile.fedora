@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure('2') do |config|
+  config.vm.define :fedora do |fedora_config|
+    fedora_config.box = 'fedora17'
+    fedora_config.box_url = 'http://dl.dropbox.com/u/6002490/vagrant/beefymiracle64.box'
+    fedora_config.hostname = 'spip-fedora'
+
+    fedora_config.provision :chef_solo do |chef|
+      chef.json = {
+        spip: {
+        }
+      }
+
+      chef.run_list = %w[recipe[spip]]
+    end
+  end
+end
