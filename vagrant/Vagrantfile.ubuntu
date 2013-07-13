@@ -8,6 +8,7 @@ Vagrant.configure('2') do |config|
     # TODO: Use drop box or S3 for Rapid7 boxes.
     ubuntu_config.vm.box_url = 'http://opscode-vagrant-boxes.s3.amazonaws.com/ubuntu10.04-gems.box'
     ubuntu_config.vm.hostname = 'spip-ubuntu'
+    ubuntu_config.vm.network :private_network, ip: '33.33.33.16'
 
     ubuntu_config.vm.provision :chef_solo do |chef|
       chef.json = {
