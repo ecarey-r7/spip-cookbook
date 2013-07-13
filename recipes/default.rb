@@ -27,6 +27,8 @@ include_recipe 'apache2::mod_php5'
 
 include_recipe 'mysql::server'
 
+package 'php5-mysql' # TODO: Determine if this is necessary
+
 template '/var/www/spip_loader.php' do
   # NOTE: I haven't updated the langauge used in the loader script I even added
   #       a comment explaining the ERB I added in French for consistency. It'd
@@ -36,3 +38,16 @@ template '/var/www/spip_loader.php' do
   source 'spip_loader.fr.php.erb'
   variables :package_path => node[:spip][:package_path]
 end
+
+package 'curl'
+execute 'run spip_loader.php script' do
+  command 'curl http://`127.0.0.1/spip_loader.php'
+end
+
+=begin
+# NOTE: The http_request resource expects the data/response to be JSON
+http_request "create/reset database" do
+  action :get
+  url 'http://127.0.0.1/spip_loader.php'
+end
+=end
